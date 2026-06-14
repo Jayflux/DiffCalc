@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Turunan Fungsi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+
+        .input-section {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .help-text {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .function-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .example-btn {
+            padding: 8px 12px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.2s;
+            font-family: 'Courier New', monospace;
+            text-align: left;
+        }
+
+        .example-btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 25px;
+            font-size: 1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-calculate:active {
+            transform: translateY(0);
+        }
+
+        .btn-clear {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-clear:hover {
+            background: #e0e0e0;
+        }
+
+        .output-section {
+            display: none;
+        }
+
+        .output-section.active {
+            display: block;
+        }
+
+        .result-box {
+            background: #f0f7ff;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .result-title {
+            color: #667eea;
+            font-weight: 700;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .result-content {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            color: #333;
+            word-break: break-all;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+        .steps-section {
+            background: #fff9f0;
+            border: 2px solid #ff9800;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .steps-title {
+            color: #ff9800;
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .step {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #ff9800;
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .step-number {
+            color: #ff9800;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .step-content {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .step-formula {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            margin-top: 8px;
+            font-size: 0.95em;
+        }
+
+        .step-navigation {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .step-nav-btn {
+            padding: 8px 15px;
+            background: #ff9800;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .step-nav-btn:hover:not(:disabled) {
+            background: #fb8c00;
+            transform: translateY(-2px);
+        }
+
+        .step-nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .step-counter {
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .error-box {
+            background: #ffebee;
+            border: 2px solid #f44336;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-box.active {
+            display: block;
+        }
+
+        .verification-box {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .verification-title {
+            color: #2e7d32;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .verification-content {
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .derivative-preview {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .derivative-preview-title {
+            color: #1565c0;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .derivative-formula {
+            font-family: 'Courier New', monospace;
+            color: #333;
+            font-size: 1em;
+            word-break: break-all;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .function-examples {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-box {
+            background: #e1f5fe;
+            border-left: 4px solid #01579b;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            color: #01579b;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📐 Kalkulator Turunan Fungsi</h1>
+        <p class="subtitle">Hitung turunan fungsi dengan penjelasan langkah demi langkah</p>
+
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="form-group">
+                <label for="funcInput">Masukkan Fungsi f(x):</label>
+                <input type="text" id="funcInput" placeholder="Contoh: x^2 + 3*x + 5" value="">
+                <div class="help-text">Gunakan ^ untuk pangkat, * untuk perkalian, / untuk pembagian</div>
+            </div>
+
+            <div class="form-group">
+                <label>Contoh Fungsi:</label>
+                <div class="function-examples">
+                    <button class="example-btn" onclick="setExample('x^2')">x^2</button>
+                    <button class="example-btn" onclick="setExample('3*x^3 + 2*x')">3x³ + 2x</button>
+                    <button class="example-btn" onclick="setExample('sin(x)')">sin(x)</button>
+                    <button class="example-btn" onclick="setExample('cos(x) + x^2')">cos(x) + x²</button>
+                    <button class="example-btn" onclick="setExample('exp(x)')">e^x</button>
+                    <button class="example-btn" onclick="setExample('log(x)')">ln(x)</button>
+                    <button class="example-btn" onclick="setExample('x^2 * sin(x)')">x² sin(x)</button>
+                    <button class="example-btn" onclick="setExample('exp(x) * cos(x)')">e^x cos(x)</button>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn-calculate" onclick="calculateDerivative()">Hitung Turunan</button>
+                <button class="btn-clear" onclick="clearAll()">Bersihkan</button>
+            </div>
+        </div>
+
+        <!-- Error Display -->
+        <div class="error-box" id="errorBox"></div>
+
+        <!-- Output Section -->
+        <div class="output-section" id="outputSection">
+            <!-- Original Function -->
+            <div class="result-box">
+                <div class="result-title">📝 Fungsi Asli</div>
+                <div class="result-content" id="originalFunc"></div>
+            </div>
+
+            <!-- Derivative Preview -->
+            <div class="derivative-preview">
+                <div class="derivative-preview-title">Hasil Turunan f'(x)</div>
+                <div class="derivative-formula" id="derivativePreview"></div>
+            </div>
+
+            <!-- Steps -->
+            <div class="steps-section">
+                <div class="steps-title">📚 Langkah-Langkah Penyelesaian</div>
+                <div id="stepsContainer"></div>
+                <div class="step-navigation" id="stepNavigation" style="display: none;">
+                    <button class="step-nav-btn" id="prevBtn" onclick="previousStep()">← Sebelumnya</button>
+                    <div class="step-counter"><span id="stepCounter">1</span> / <span id="stepTotal">1</span></div>
+                    <button class="step-nav-btn" id="nextBtn" onclick="nextStep()">Selanjutnya →</button>
+                </div>
+            </div>
+
+            <!-- Verification -->
+            <div class="verification-box">
+                <div class="verification-title">✓ Verifikasi Hasil</div>
+                <div class="verification-content" id="verificationContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        let totalSteps = 0;
+        let derivativeSteps = [];
+
+        // Utility Functions
+        function setExample(example) {
+            document.getElementById('funcInput').value = example;
+        }
+
+        function clearAll() {
+            document.getElementById('funcInput').value = '';
+            document.getElementById('outputSection').classList.remove('active');
+            document.getElementById('errorBox').classList.remove('active');
+            currentStep = 0;
+            totalSteps = 0;
+            derivativeSteps = [];
+        }
+
+        function showError(message) {
+            const errorBox = document.getElementById('errorBox');
+            errorBox.textContent = '❌ ' + message;
+            errorBox.classList.add('active');
+            document.getElementById('outputSection').classList.remove('active');
+        }
+
+        // Expression Parsing dan Manipulation
+        class DerivativeCalculator {
+            constructor(expression) {
+                this.expr = expression.trim();
+                this.steps = [];
+            }
+
+            // Tokenize expression
+            tokenize(expr) {
+                const tokens = [];
+                let i = 0;
+                while (i < expr.length) {
+                    if (/\s/.test(expr[i])) {
+                        i++;
+                    } else if (/[+\-*/()^]/.test(expr[i])) {
+                        tokens.push(expr[i]);
+                        i++;
+                    } else if (/[a-zA-Z]/.test(expr[i])) {
+                        let word = '';
+                        while (i < expr.length && /[a-zA-Z0-9_]/.test(expr[i])) {
+                            word += expr[i];
+                            i++;
+                        }
+                        tokens.push(word);
+                    } else if (/[0-9]/.test(expr[i])) {
+                        let number = '';
+                        while (i < expr.length && /[0-9.]/.test(expr[i])) {
+                            number += expr[i];
+                            i++;
+                        }
+                        tokens.push(number);
+                    } else {
+                        i++;
+                    }
+                }
+                return tokens;
+            }
+
+            // Parse expression ke AST (Abstract Syntax Tree)
+            parse(expr) {
+                expr = expr.replace(/\s+/g, '');
+                return this.parseExpression(expr, { pos: 0 });
+            }
+
+            parseExpression(expr, state) {
+                let left = this.parseTerm(expr, state);
+                while (state.pos < expr.length && (expr[state.pos] === '+' || expr[state.pos] === '-')) {
+                    const op = expr[state.pos];
+                    state.pos++;
+                    const right = this.parseTerm(expr, state);
+                    left = { type: 'binary', op, left, right };
+                }
+                return left;
+            }
+
+            parseTerm(expr, state) {
+                let left = this.parseFactor(expr, state);
+                while (state.pos < expr.length && (expr[state.pos] === '*' || expr[state.pos] === '/')) {
+                    const op = expr[state.pos];
+                    state.pos++;
+                    const right = this.parseFactor(expr, state);
+                    left = { type: 'binary', op, left, right };
+                }
+                return left;
+            }
+
+            parseFactor(expr, state) {
+                let left = this.parsePower(expr, state);
+                return left;
+            }
+
+            parsePower(expr, state) {
+                let left = this.parseUnary(expr, state);
+                if (state.pos < expr.length && expr[state.pos] === '^') {
+                    state.pos++;
+                    const right = this.parsePower(expr, state);
+                    left = { type: 'power', base: left, exponent: right };
+                }
+                return left;
+            }
+
+            parseUnary(expr, state) {
+                if (state.pos < expr.length && expr[state.pos] === '-') {
+                    state.pos++;
+                    const arg = this.parseUnary(expr, state);
+                    return { type: 'unary', op: '-', arg };
+                }
+                return this.parseAtom(expr, state);
+            }
+
+            parseAtom(expr, state) {
+                if (state.pos < expr.length && expr[state.pos] === '(') {
+                    state.pos++;
+                    const inner = this.parseExpression(expr, state);
+                    if (state.pos < expr.length && expr[state.pos] === ')') {
+                        state.pos++;
+                    }
+                    return inner;
+                }
+
+                // Check untuk function calls
+                let pos = state.pos;
+                while (pos < expr.length && /[a-zA-Z]/.test(expr[pos])) {
+                    pos++;
+                }
+                const funcName = expr.substring(state.pos, pos);
+                
+                if (['sin', 'cos', 'tan', 'exp', 'log', 'sqrt'].includes(funcName) && pos < expr.length && expr[pos] === '(') {
+                    state.pos = pos + 1;
+                    const arg = this.parseExpression(expr, state);
+                    if (state.pos < expr.length && expr[state.pos] === ')') {
+                        state.pos++;
+                    }
+                    return { type: 'function', name: funcName, arg };
+                }
+
+                // Number atau variable
+                if (/[0-9]/.test(expr[state.pos])) {
+                    let num = '';
+                    while (state.pos < expr.length && /[0-9.]/.test(expr[state.pos])) {
+                        num += expr[state.pos];
+                        state.pos++;
+                    }
+                    return { type: 'number', value: parseFloat(num) };
+                }
+
+                if (/[a-zA-Z]/.test(expr[state.pos])) {
+                    let variable = '';
+                    while (state.pos < expr.length && /[a-zA-Z0-9_]/.test(expr[state.pos])) {
+                        variable += expr[state.pos];
+                        state.pos++;
+                    }
+                    return { type: 'variable', name: variable };
+                }
+
+                throw new Error('Unexpected character at position ' + state.pos);
+            }
+
+            // Convert AST ke string
+            astToString(ast) {
+                if (ast.type === 'number') {
+                    return ast.value.toString();
+                }
+                if (ast.type === 'variable') {
+                    return ast.name;
+                }
+                if (ast.type === 'function') {
+                    return `${ast.name}(${this.astToString(ast.arg)})`;
+                }
+                if (ast.type === 'power') {
+                    const base = this.needsParens(ast.base) ? `(${this.astToString(ast.base)})` : this.astToString(ast.base);
+                    const exp = this.needsParens(ast.exponent) ? `(${this.astToString(ast.exponent)})` : this.astToString(ast.exponent);
+                    return `${base}^${exp}`;
+                }
+                if (ast.type === 'binary') {
+                    const left = this.needsParens(ast.left, ast.op) ? `(${this.astToString(ast.left)})` : this.astToString(ast.left);
+                    const right = this.needsParens(ast.right, ast.op) ? `(${this.astToString(ast.right)})` : this.astToString(ast.right);
+                    return `${left} ${ast.op} ${right}`;
+                }
+                if (ast.type === 'unary') {
+                    const arg = this.needsParens(ast.arg) ? `(${this.astToString(ast.arg)})` : this.astToString(ast.arg);
+                    return `${ast.op}${arg}`;
+                }
+                return '';
+            }
+
+            needsParens(node, parentOp = null) {
+                if (node.type === 'number' || node.type === 'variable') return false;
+                if (node.type === 'function') return false;
+                if (node.type === 'unary') return true;
+                if (node.type === 'binary') {
+                    const precedence = { '+': 1, '-': 1, '*': 2, '/': 2 };
+                    const nodePrecedence = precedence[node.op] || 0;
+                    const parentPrecedence = precedence[parentOp] || 0;
+                    return nodePrecedence < parentPrecedence;
+                }
+                return true;
+            }
+
+            // Derivative calculation
+            derivative(ast, variable = 'x') {
+                if (ast.type === 'number') {
+                    this.steps.push({
+                        description: 'Turunan dari konstanta adalah 0',
+                        formula: `d/dx(${ast.value}) = 0`
+                    });
+                    return { type: 'number', value: 0 };
+                }
+
+                if (ast.type === 'variable') {
+                    if (ast.name === variable) {
+                        this.steps.push({
+                            description: `Turunan dari variabel ${variable} adalah 1`,
+                            formula: `d/dx(${variable}) = 1`
+                        });
+                        return { type: 'number', value: 1 };
+                    } else {
+                        this.steps.push({
+                            description: `${ast.name} adalah konstanta (bukan ${variable})`,
+                            formula: `d/dx(${ast.name}) = 0`
+                        });
+                        return { type: 'number', value: 0 };
+                    }
+                }
+
+                if (ast.type === 'unary') {
+                    const innerDerivative = this.derivative(ast.arg, variable);
+                    return { type: 'unary', op: ast.op, arg: innerDerivative };
+                }
+
+                if (ast.type === 'power') {
+                    // Power rule: d/dx[u^n] = n * u^(n-1) * du/dx
+                    const base = ast.base;
+                    const exponent = ast.exponent;
+
+                    // Check if exponent is constant
+                    const isConstantExp = !this.containsVariable(exponent, variable);
+                    const isConstantBase = !this.containsVariable(base, variable);
+
+                    if (isConstantExp && !isConstantBase) {
+                        // d/dx[u^n] = n * u^(n-1) * du/dx
+                        this.steps.push({
+                            description: 'Power rule: d/dx[u^n] = n · u^(n-1) · du/dx',
+                            formula: `d/dx[(${this.astToString(base)})^${this.astToString(exponent)}]`
+                        });
+
+                        const newExponent = { type: 'binary', op: '-', left: exponent, right: { type: 'number', value: 1 } };
+                        const baseDerivative = this.derivative(base, variable);
+
+                        const term1 = { type: 'binary', op: '*', left: exponent, right: { type: 'power', base, exponent: newExponent } };
+                        return { type: 'binary', op: '*', left: term1, right: baseDerivative };
+                    } else if (isConstantBase && !isConstantExp) {
+                        // d/dx[a^u] = a^u * ln(a) * du/dx
+                        this.steps.push({
+                            description: 'Exponential rule: d/dx[a^u] = a^u · ln(a) · du/dx',
+                            formula: `d/dx[${this.astToString(base)}^(${this.astToString(exponent)})]`
+                        });
+
+                        const expDerivative = this.derivative(exponent, variable);
+                        const ln = { type: 'function', name: 'log', arg: base };
+                        const term1 = { type: 'binary', op: '*', left: ast, right: ln };
+                        return { type: 'binary', op: '*', left: term1, right: expDerivative };
+                    } else if (!isConstantBase && !isConstantExp) {
+                        // d/dx[u^v] = u^v * (v'/u * ln(u) + v*u'/u)
+                        this.steps.push({
+                            description: 'Logarithmic differentiation untuk u^v',
+                            formula: `d/dx[(${this.astToString(base)})^(${this.astToString(exponent)})]`
+                        });
+
+                        const baseDerivative = this.derivative(base, variable);
+                        const expDerivative = this.derivative(exponent, variable);
+                        // Simplified: return u^v * (v'*ln(u) + v*u'/u)
+                        return ast; // Placeholder untuk complex case
+                    } else {
+                        return { type: 'number', value: 0 };
+                    }
+                }
+
+                if (ast.type === 'function') {
+                    const innerDerivative = this.derivative(ast.arg, variable);
+
+                    if (ast.name === 'sin') {
+                        this.steps.push({
+                            description: 'Chain rule: d/dx[sin(u)] = cos(u) · du/dx',
+                            formula: `d/dx[sin(${this.astToString(ast.arg)})]`
+                        });
+                        const cos = { type: 'function', name: 'cos', arg: ast.arg };
+                        return { type: 'binary', op: '*', left: cos, right: innerDerivative };
+                    }
+
+                    if (ast.name === 'cos') {
+                        this.steps.push({
+                            description: 'Chain rule: d/dx[cos(u)] = -sin(u) · du/dx',
+                            formula: `d/dx[cos(${this.astToString(ast.arg)})]`
+                        });
+                        const negSin = { type: 'unary', op: '-', arg: { type: 'function', name: 'sin', arg: ast.arg } };
+                        return { type: 'binary', op: '*', left: negSin, right: innerDerivative };
+                    }
+
+                    if (ast.name === 'tan') {
+                        this.steps.push({
+                            description: 'Chain rule: d/dx[tan(u)] = sec²(u) · du/dx = 1/cos²(u) · du/dx',
+                            formula: `d/dx[tan(${this.astToString(ast.arg)})]`
+                        });
+                        const sec2 = { type: 'power', base: { type: 'function', name: 'cos', arg: ast.arg }, exponent: { type: 'number', value: -2 } };
+                        return { type: 'binary', op: '*', left: sec2, right: innerDerivative };
+                    }
+
+                    if (ast.name === 'exp') {
+                        this.steps.push({
+                            description: 'Chain rule: d/dx[e^u] = e^u · du/dx',
+                            formula: `d/dx[e^(${this.astToString(ast.arg)})]`
+                        });
+                        return { type: 'binary', op: '*', left: ast, right: innerDerivative };
+                    }
+
+                    if (ast.name === 'log') {
+                        this.steps.push({
+                            description: 'Chain rule: d/dx[ln(u)] = 1/u · du/dx',
+                            formula: `d/dx[ln(${this.astToString(ast.arg)})]`
+                        });
+                        const reciprocal = { type: 'power', base: ast.arg, exponent: { type: 'number', value: -1 } };
+                        return { type: 'binary', op: '*', left: reciprocal, right: innerDerivative };
+                    }
+
+                    if (ast.name === 'sqrt') {
+                        this.steps.push({
+                            description: 'Chain rule: d/dx[√u] = 1/(2√u) · du/dx',
+                            formula: `d/dx[√(${this.astToString(ast.arg)})]`
+                        });
+                        const coeff = { type: 'number', value: 0.5 };
+                        const sqrtBase = { type: 'function', name: 'sqrt', arg: ast.arg };
+                        const reciprocal = { type: 'power', base: sqrtBase, exponent: { type: 'number', value: -1 } };
+                        return { type: 'binary', op: '*', left: { type: 'binary', op: '*', left: coeff, right: reciprocal }, right: innerDerivative };
+                    }
+                }
+
+                if (ast.type === 'binary') {
+                    if (ast.op === '+' || ast.op === '-') {
+                        // Sum/difference rule: d/dx[u ± v] = du/dx ± dv/dx
+                        this.steps.push({
+                            description: `Sum/Difference rule: d/dx[u ${ast.op} v] = du/dx ${ast.op} dv/dx`,
+                            formula: `d/dx[${this.astToString(ast.left)} ${ast.op} ${this.astToString(ast.right)}]`
+                        });
+
+                        const leftDerivative = this.derivative(ast.left, variable);
+                        const rightDerivative = this.derivative(ast.right, variable);
+                        return { type: 'binary', op: ast.op, left: leftDerivative, right: rightDerivative };
+                    }
+
+                    if (ast.op === '*') {
+                        // Product rule: d/dx[u * v] = u'*v + u*v'
+                        this.steps.push({
+                            description: 'Product rule: d/dx[u · v] = u\' · v + u · v\'',
+                            formula: `d/dx[${this.astToString(ast.left)} · ${this.astToString(ast.right)}]`
+                        });
+
+                        const leftDerivative = this.derivative(ast.left, variable);
+                        const rightDerivative = this.derivative(ast.right, variable);
+
+                        const term1 = { type: 'binary', op: '*', left: leftDerivative, right: ast.right };
+                        const term2 = { type: 'binary', op: '*', left: ast.left, right: rightDerivative };
+                        return { type: 'binary', op: '+', left: term1, right: term2 };
+                    }
+
+                    if (ast.op === '/') {
+                        // Quotient rule: d/dx[u/v] = (u'*v - u*v') / v^2
+                        this.steps.push({
+                            description: 'Quotient rule: d/dx[u / v] = (u\' · v - u · v\') / v²',
+                            formula: `d/dx[${this.astToString(ast.left)} / ${this.astToString(ast.right)}]`
+                        });
+
+                        const leftDerivative = this.derivative(ast.left, variable);
+                        const rightDerivative = this.derivative(ast.right, variable);
+
+                        const numerator1 = { type: 'binary', op: '*', left: leftDerivative, right: ast.right };
+                        const numerator2 = { type: 'binary', op: '*', left: ast.left, right: rightDerivative };
+                        const numerator = { type: 'binary', op: '-', left: numerator1, right: numerator2 };
+                        const denominator = { type: 'power', base: ast.right, exponent: { type: 'number', value: 2 } };
+
+                        return { type: 'binary', op: '/', left: numerator, right: denominator };
+                    }
+                }
+
+                return { type: 'number', value: 0 };
+            }
+
+            containsVariable(ast, variable = 'x') {
+                if (ast.type === 'number') return false;
+                if (ast.type === 'variable') return ast.name === variable;
+                if (ast.type === 'unary') return this.containsVariable(ast.arg, variable);
+                if (ast.type === 'power') return this.containsVariable(ast.base, variable) || this.containsVariable(ast.exponent, variable);
+                if (ast.type === 'function') return this.containsVariable(ast.arg, variable);
+                if (ast.type === 'binary') return this.containsVariable(ast.left, variable) || this.containsVariable(ast.right, variable);
+                return false;
+            }
+
+            simplify(ast) {
+                // Basic simplification
+                if (ast.type === 'binary') {
+                    const left = this.simplify(ast.left);
+                    const right = this.simplify(ast.right);
+
+                    if (ast.op === '+') {
+                        if (left.type === 'number' && left.value === 0) return right;
+                        if (right.type === 'number' && right.value === 0) return left;
+                        if (left.type === 'number' && right.type === 'number') {
+                            return { type: 'number', value: left.value + right.value };
+                        }
+                    }
+
+                    if (ast.op === '-') {
+                        if (right.type === 'number' && right.value === 0) return left;
+                        if (left.type === 'number' && right.type === 'number') {
+                            return { type: 'number', value: left.value - right.value };
+                        }
+                    }
+
+                    if (ast.op === '*') {
+                        if ((left.type === 'number' && left.value === 0) || (right.type === 'number' && right.value === 0)) {
+                            return { type: 'number', value: 0 };
+                        }
+                        if (left.type === 'number' && left.value === 1) return right;
+                        if (right.type === 'number' && right.value === 1) return left;
+                        if (left.type === 'number' && right.type === 'number') {
+                            return { type: 'number', value: left.value * right.value };
+                        }
+                    }
+
+                    if (ast.op === '/') {
+                        if (right.type === 'number' && right.value === 1) return left;
+                        if (left.type === 'number' && right.type === 'number') {
+                            return { type: 'number', value: left.value / right.value };
+                        }
+                    }
+
+                    return { type: 'binary', op: ast.op, left, right };
+                }
+
+                if (ast.type === 'unary') {
+                    const arg = this.simplify(ast.arg);
+                    if (ast.op === '-' && arg.type === 'number') {
+                        return { type: 'number', value: -arg.value };
+                    }
+                    return { type: 'unary', op: ast.op, arg };
+                }
+
+                if (ast.type === 'power') {
+                    const base = this.simplify(ast.base);
+                    const exponent = this.simplify(ast.exponent);
+                    if (exponent.type === 'number' && exponent.value === 0) {
+                        return { type: 'number', value: 1 };
+                    }
+                    if (exponent.type === 'number' && exponent.value === 1) {
+                        return base;
+                    }
+                    return { type: 'power', base, exponent };
+                }
+
+                return ast;
+            }
+
+            calculate() {
+                try {
+                    const ast = this.parse(this.expr);
+                    document.getElementById('originalFunc').textContent = this.astToString(ast);
+
+                    this.steps = [];
+                    const derivativeAst = this.derivative(ast);
+                    const simplified = this.simplify(derivativeAst);
+                    const result = this.astToString(simplified);
+
+                    return {
+                        original: this.astToString(ast),
+                        derivative: result,
+                        steps: this.steps,
+                        ast: simplified
+                    };
+                } catch (error) {
+                    throw new Error('Error parsing expression: ' + error.message);
+                }
+            }
+        }
+
+        // Main calculation function
+        function calculateDerivative() {
+            const funcInput = document.getElementById('funcInput').value.trim();
+
+            if (!funcInput) {
+                showError('Masukkan fungsi terlebih dahulu');
+                return;
+            }
+
+            try {
+                const calculator = new DerivativeCalculator(funcInput);
+                const result = calculator.calculate();
+
+                derivativeSteps = result.steps;
+                currentStep = 0;
+                totalSteps = derivativeSteps.length > 0 ? derivativeSteps.length : 1;
+
+                // Display results
+                document.getElementById('originalFunc').textContent = result.original;
+                document.getElementById('derivativePreview').textContent = result.derivative;
+
+                // Display steps
+                const stepsContainer = document.getElementById('stepsContainer');
+                stepsContainer.innerHTML = '';
+
+                if (derivativeSteps.length === 0) {
+                    const stepDiv = document.createElement('div');
+                    stepDiv.className = 'step active';
+                    stepDiv.innerHTML = `
+                        <div class="step-number">Hasil Akhir</div>
+                        <div class="step-content">
+                            Turunan dari fungsi tersebut adalah:
+                            <div class="step-formula">${result.derivative}</div>
+                        </div>
+                    `;
+                    stepsContainer.appendChild(stepDiv);
+                } else {
+                    derivativeSteps.forEach((step, index) => {
+                        const stepDiv = document.createElement('div');
+                        stepDiv.className = 'step' + (index === 0 ? ' active' : '');
+                        stepDiv.innerHTML = `
+                            <div class="step-number">Langkah ${index + 1}</div>
+                            <div class="step-content">
+                                ${step.description}
+                                <div class="step-formula">${step.formula}</div>
+                            </div>
+                        `;
+                        stepsContainer.appendChild(stepDiv);
+                    });
+                }
+
+                // Setup step navigation
+                const stepNav = document.getElementById('stepNavigation');
+                if (totalSteps > 1) {
+                    stepNav.style.display = 'flex';
+                    updateStepNavigation();
+                } else {
+                    stepNav.style.display = 'none';
+                }
+
+                // Verification
+                const verificationContent = document.getElementById('verificationContent');
+                verificationContent.innerHTML = `
+                    <p><strong>Fungsi asli:</strong> f(x) = ${result.original}</p>
+                    <p><strong>Turunan pertama:</strong> f'(x) = ${result.derivative}</p>
+                    <p style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ccc;">
+                        <em>Catatan: Untuk verifikasi lebih lanjut, Anda dapat mengevaluasi turunan pada nilai x tertentu atau membandingkan dengan turunan numerik.</em>
+                    </p>
+                `;
+
+                document.getElementById('outputSection').classList.add('active');
+                document.getElementById('errorBox').classList.remove('active');
+
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps - 1) {
+                currentStep++;
+                updateStepDisplay();
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStepDisplay();
+            }
+        }
+
+        function updateStepDisplay() {
+            const steps = document.querySelectorAll('.step');
+            steps.forEach((step, index) => {
+                step.classList.remove('active');
+                if (index === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+            updateStepNavigation();
+        }
+
+        function updateStepNavigation() {
+            document.getElementById('stepCounter').textContent = currentStep + 1;
+            document.getElementById('stepTotal').textContent = totalSteps;
+            document.getElementById('prevBtn').disabled = currentStep === 0;
+            document.getElementById('nextBtn').disabled = currentStep === totalSteps - 1;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default example
+            document.getElementById('funcInput').value = 'x^2 + 3*x + 2';
+        });
+    </script>
+</body>
+</html>
