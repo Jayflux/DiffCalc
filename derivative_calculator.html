@@ -45,11 +45,11 @@
         }
 
         .input-section {
-            background: #f8f9ff;
-            padding: 25px;
+            background: #f0f7ff;
+            border: 2px solid #667eea;
             border-radius: 10px;
+            padding: 25px;
             margin-bottom: 30px;
-            border-left: 5px solid #667eea;
         }
 
         .form-group {
@@ -346,6 +346,46 @@
             }
         }
 
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88em;
+            margin-top: 8px;
+        }
+
+        .info-table th {
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .info-table td {
+            padding: 7px 12px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #333;
+        }
+
+        .info-table tr:nth-child(even) td {
+            background: #f4f4fb;
+        }
+
+        .info-table code {
+            background: #eef0ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            color: #4a4a9c;
+        }
+
+        .status-ok {
+            color: #2e7d32;
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
         .info-box {
             background: #e1f5fe;
             border-left: 4px solid #01579b;
@@ -372,17 +412,51 @@
             </div>
 
             <div class="form-group">
-                <label>Contoh Fungsi:</label>
-                <div class="function-examples">
-                    <button class="example-btn" onclick="setExample('x^2')">x^2</button>
-                    <button class="example-btn" onclick="setExample('3*x^3 + 2*x')">3x³ + 2x</button>
-                    <button class="example-btn" onclick="setExample('sin(x)')">sin(x)</button>
-                    <button class="example-btn" onclick="setExample('cos(x) + x^2')">cos(x) + x²</button>
-                    <button class="example-btn" onclick="setExample('exp(x)')">e^x</button>
-                    <button class="example-btn" onclick="setExample('log(x)')">ln(x)</button>
-                    <button class="example-btn" onclick="setExample('x^2 * sin(x)')">x² sin(x)</button>
-                    <button class="example-btn" onclick="setExample('exp(x) * cos(x)')">e^x cos(x)</button>
-                </div>
+                <label>Syntax Input:</label>
+                <table class="info-table">
+                    <thead>
+                        <tr>
+                            <th>Operator</th>
+                            <th>Simbol</th>
+                            <th>Contoh</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Pangkat</td><td><code>^</code></td><td><code>x^2</code> untuk x²</td></tr>
+                        <tr><td>Perkalian</td><td><code>*</code></td><td><code>3*x</code> untuk 3x</td></tr>
+                        <tr><td>Pembagian</td><td><code>/</code></td><td><code>x/2</code> untuk x/2</td></tr>
+                        <tr><td>Penjumlahan</td><td><code>+</code></td><td><code>x + 1</code></td></tr>
+                        <tr><td>Pengurangan</td><td><code>-</code></td><td><code>x - 1</code></td></tr>
+                        <tr><td>Grouping</td><td><code>()</code></td><td><code>(x+1)^2</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <label>Aturan-Aturan Turunan yang Didukung:</label>
+                <table class="info-table">
+                    <thead>
+                        <tr>
+                            <th>Aturan</th>
+                            <th>Formula</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Power Rule</td><td><code>d/dx[x^n] = n·x^(n-1)</code></td><td class="status-ok">✓</td></tr>
+                        <tr><td>Sum Rule</td><td><code>d/dx[f+g] = f' + g'</code></td><td class="status-ok">✓</td></tr>
+                        <tr><td>Difference Rule</td><td><code>d/dx[f-g] = f' - g'</code></td><td class="status-ok">✓</td></tr>
+                        <tr><td>Product Rule</td><td><code>d/dx[f·g] = f'·g + f·g'</code></td><td class="status-ok">✓</td></tr>
+                        <tr><td>Quotient Rule</td><td><code>d/dx[f/g] = (f'·g - f·g')/g²</code></td><td class="status-ok">✓</td></tr>
+                        <tr><td>Chain Rule</td><td><code>d/dx[f(g(x))] = f'(g)·g'</code></td><td class="status-ok">✓</td></tr>
+                        <tr><td>Sin Rule</td><td><code>d/dx[sin(x)] = cos(x)</code></td><td class="status-ok">✓</td></tr>
+                        <tr><td>Cos Rule</td><td><code>d/dx[cos(x)] = -sin(x)</code></td><td class="status-ok">✓</td></tr>
+                        <tr><td>Tan Rule</td><td><code>d/dx[tan(x)] = sec²(x)</code></td><td class="status-ok">✓</td></tr>
+                        <tr><td>Exp Rule</td><td><code>d/dx[e^x] = e^x</code></td><td class="status-ok">✓</td></tr>
+                        <tr><td>Log Rule</td><td><code>d/dx[ln(x)] = 1/x</code></td><td class="status-ok">✓</td></tr>
+                        <tr><td>Sqrt Rule</td><td><code>d/dx[√x] = 1/(2√x)</code></td><td class="status-ok">✓</td></tr>
+                    </tbody>
+                </table>
             </div>
 
             <div class="button-group">
@@ -396,16 +470,12 @@
 
         <!-- Output Section -->
         <div class="output-section" id="outputSection">
-            <!-- Original Function -->
+            <!-- Original Function + Derivative combined -->
             <div class="result-box">
                 <div class="result-title">📝 Fungsi Asli</div>
                 <div class="result-content" id="originalFunc"></div>
-            </div>
-
-            <!-- Derivative Preview -->
-            <div class="derivative-preview">
-                <div class="derivative-preview-title">Hasil Turunan f'(x)</div>
-                <div class="derivative-formula" id="derivativePreview"></div>
+                <div class="result-title" style="margin-top: 18px;">📊 Hasil Turunan f'(x)</div>
+                <div class="result-content" id="derivativePreview" style="font-weight: bold;"></div>
             </div>
 
             <!-- Steps -->
