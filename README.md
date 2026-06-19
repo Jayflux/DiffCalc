@@ -17,6 +17,7 @@
 9. [Troubleshooting](#troubleshooting)
 10. [Roadmap](#roadmap)
 11. [Referensi](#referensi)
+12. [Kesimpulan](#kesimpulan)
 
 ---
 
@@ -504,10 +505,10 @@ cos(2x) = cos²(x) - sin²(x)
 
 ## Kesimpulan
 
-Kalkulator Turunan Fungsi (DiffCalc) merupakan aplikasi web berbasis HTML, CSS, dan JavaScript yang dirancang untuk membantu pengguna menghitung turunan fungsi matematika secara simbolik dengan mudah dan cepat. Aplikasi ini tidak hanya menghasilkan jawaban akhir, tetapi juga menampilkan langkah-langkah penyelesaian secara rinci sehingga dapat digunakan sebagai media pembelajaran kalkulus diferensial.
+Kalkulator Turunan Fungsi (DiffCalc) adalah aplikasi web berbasis HTML, CSS, dan JavaScript yang membantu pengguna menghitung turunan fungsi matematika secara simbolik dengan cepat dan mudah. Selain menampilkan hasil akhir, aplikasi ini juga menyediakan langkah-langkah penyelesaian secara rinci sehingga dapat digunakan sebagai media pembelajaran kalkulus diferensial.
 
-DiffCalc mendukung berbagai jenis fungsi, seperti polinomial, trigonometri, eksponensial, logaritma, dan kombinasi fungsi kompleks, serta menerapkan berbagai aturan turunan seperti Power Rule, Product Rule, Quotient Rule, dan Chain Rule. Dengan desain yang ringan, responsif, dan dapat dijalankan secara offline tanpa instalasi tambahan, aplikasi ini cocok digunakan oleh siswa, mahasiswa, guru, maupun profesional yang membutuhkan alat bantu perhitungan turunan.
+DiffCalc mendukung berbagai jenis fungsi, seperti polinomial, trigonometri, eksponensial, dan logaritma, serta menerapkan aturan turunan penting seperti Power Rule, Product Rule, Quotient Rule, dan Chain Rule. Dengan desain yang ringan, responsif, dan dapat digunakan secara offline, aplikasi ini cocok untuk siswa, mahasiswa, guru, maupun pengguna umum.
 
-Secara keseluruhan, DiffCalc berhasil menggabungkan konsep teori kalkulus dengan implementasi teknologi web modern sehingga menghasilkan alat pembelajaran yang praktis, interaktif, dan mudah diakses. Pengembangan fitur lanjutan yang telah direncanakan, seperti integral, turunan tingkat lanjut, visualisasi grafik, dan ekspor dokumen, berpotensi meningkatkan manfaat aplikasi ini di masa mendatang.
+Secara keseluruhan, DiffCalc merupakan alat bantu pembelajaran yang praktis, interaktif, dan mudah diakses. Pengembangan fitur lanjutan di masa depan diharapkan dapat meningkatkan fungsi dan manfaat aplikasi ini.
 
 ---
