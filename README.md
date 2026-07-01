@@ -71,7 +71,7 @@ git clone https://github.com/Jayflux/DiffCalc.git
 
 **2. Buka di browser:**
 ```
-Double-click: derivative_calculator.html
+Double-click: index.html
 ```
 
 **3. Coba langsung:**
@@ -379,7 +379,7 @@ inner: sin(x), g'(x) = cos(x)
 
 ```
 DiffCalc/
-├── derivative_calculator.html   ← FILE UTAMA
+├── index.html   ← FILE UTAMA
 └── README.md                    ← File ini
 ```
 
